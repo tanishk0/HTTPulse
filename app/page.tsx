@@ -172,6 +172,18 @@ export default function Home() {
             Report appears here after scanning.
           </div>
         )}
+
+        {/* Footer */}
+        <footer className="mt-12 pt-6 border-t border-[#2A2F3A] text-center w-full">
+          <a
+            href="https://digitalheroesco.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-[#9CA3AF] hover:text-[#F3F4F6] transition-colors inline-block"
+          >
+            Built for Digital Heroes Training Task
+          </a>
+        </footer>
       </div>
     </main>
   );

@@ -71,14 +71,16 @@ export function Report({ data }: ReportProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
           <MetricCard
             label="Title"
-            value={data.title}
-            color="sky"
+            value={data.title ?? "No title found"}
+            color={data.title ? "sky" : "amber"}
+            subtitle={data.title === null ? "Missing title tag" : undefined}
             className="lg:col-span-4"
           />
           <MetricCard
             label="Meta Description"
-            value={data.metaDescription}
-            color="neutral"
+            value={data.metaDescription ?? "No meta description found"}
+            color={data.metaDescription ? "neutral" : "amber"}
+            subtitle={data.metaDescription === null ? "Missing meta description tag" : undefined}
             className="lg:col-span-5"
           />
           <MetricCard

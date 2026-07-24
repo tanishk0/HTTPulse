@@ -1,8 +1,8 @@
 export interface AnalysisData {
   status: number;
   responseTime: number; // in milliseconds
-  title: string;
-  metaDescription: string;
+  title: string | null;
+  metaDescription: string | null;
   h1Count: number;
   missingAltImages: number;
   wordCount: number;

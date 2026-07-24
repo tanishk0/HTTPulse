@@ -1,7 +1,7 @@
 import axios from "axios";
-import * as cheerio from "cheerio";
 import { AnalyzeSuccessResponse, AnalyzeErrorResponse } from "@/types/report";
 import { ERROR_CODES, AppError } from "./errors";
+import { parseHtmlMetrics } from "./parser";
 
 export type AnalysisResult =
   | AnalyzeSuccessResponse
@@ -25,7 +25,7 @@ export async function analyzeWebpage(targetUrl: string): Promise<AnalysisResult>
     const responseTime = Math.round(performance.now() - startTime);
     const statusCode = response.status;
 
-    // Handle target HTTP 404, 500, or other error status codes (request succeeded, but page has error)
+    // Handle target HTTP 404, 500, or other error status codes
     if (statusCode === 404) {
       return buildErrorResult(ERROR_CODES.HTTP_404);
     }
@@ -53,38 +53,8 @@ export async function analyzeWebpage(targetUrl: string): Promise<AnalysisResult>
 
     const html = typeof response.data === "string" ? response.data : String(response.data);
 
-    // Parse HTML using Cheerio with fallback safety
-    const $ = cheerio.load(html);
-
-    // Extract Title (fallback if missing)
-    const title = $("title").first().text().trim() || "No title found";
-
-    // Extract Meta Description (fallback if missing)
-    let metaDescription =
-      $('meta[name="description" i]').attr("content") ||
-      $('meta[property="og:description" i]').attr("content") ||
-      "No meta description found.";
-    metaDescription = metaDescription.trim();
-
-    // Extract H1 count
-    const h1Count = $("h1").length;
-
-    // Extract Missing Alt Images count
-    let missingAltImages = 0;
-    $("img").each((_, el) => {
-      const alt = $(el).attr("alt");
-      if (alt === undefined || alt === null || alt.trim() === "") {
-        missingAltImages++;
-      }
-    });
-
-    // Extract Word Count safely
-    const targetEl = $("body").length ? $("body") : $("html");
-    const bodyCopy = targetEl.clone();
-    bodyCopy.find("script, style, noscript, svg, template").remove();
-
-    const rawText = bodyCopy.text();
-    const wordCount = rawText.trim() ? rawText.trim().split(/\s+/).filter(Boolean).length : 0;
+    // Parse HTML metrics using dedicated parser module
+    const parsedMetrics = parseHtmlMetrics(html);
 
     return {
       success: true,
@@ -92,11 +62,7 @@ export async function analyzeWebpage(targetUrl: string): Promise<AnalysisResult>
       data: {
         status: statusCode,
         responseTime,
-        title,
-        metaDescription,
-        h1Count,
-        missingAltImages,
-        wordCount,
+        ...parsedMetrics,
       },
     };
   } catch (err: unknown) {
