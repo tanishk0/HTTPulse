@@ -1,8 +1,9 @@
 interface MetricCardProps {
   label: string;
   value: string | number;
-  color?: "emerald" | "amber" | "rose" | "sky" | "neutral";
+  color?: "emerald" | "amber" | "rose" | "sky" | "purple" | "neutral";
   subtitle?: string;
+  className?: string;
 }
 
 export function MetricCard({
@@ -10,37 +11,32 @@ export function MetricCard({
   value,
   color = "neutral",
   subtitle,
+  className = "",
 }: MetricCardProps) {
   const valueColorMap = {
-    emerald: "text-[#00D4AA]",
+    emerald: "text-emerald-400",
     amber: "text-amber-400",
     rose: "text-rose-400",
     sky: "text-sky-400",
+    purple: "text-purple-400",
     neutral: "text-[#F3F4F6]",
   };
 
-  const statusBorderMap = {
-    emerald: "border-l-2 border-l-[#00D4AA]",
-    amber: "border-l-2 border-l-amber-500",
-    rose: "border-l-2 border-l-rose-500",
-    sky: "border-l-2 border-l-sky-400",
-    neutral: "border-l-2 border-l-[#2A2F3A]",
-  };
-
   const dotMap = {
-    emerald: "bg-[#00D4AA]",
-    amber: "bg-amber-400",
-    rose: "bg-rose-400",
-    sky: "bg-sky-400",
-    neutral: "bg-[#6B7280]",
+    emerald: "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]",
+    amber: "bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.6)]",
+    rose: "bg-rose-400 shadow-[0_0_6px_rgba(251,113,133,0.6)]",
+    sky: "bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.6)]",
+    purple: "bg-purple-400 shadow-[0_0_6px_rgba(192,132,252,0.6)]",
+    neutral: "bg-neutral-500",
   };
 
   return (
     <div
-      className={`bg-[#161B22] border border-[#2A2F3A] ${statusBorderMap[color]} rounded-lg p-5 flex flex-col justify-between hover:border-[#3B4252] transition-all duration-200 shadow-sm`}
+      className={`bg-[#161B22] border border-[#2A2F3A] rounded-lg p-4 flex flex-col justify-between hover:border-[#3B4252] transition-colors duration-150 shadow-sm ${className}`}
     >
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs uppercase tracking-wider text-[#9CA3AF] font-mono font-semibold">
+        <span className="text-xs uppercase tracking-wider text-[#9CA3AF] font-mono font-medium">
           {label}
         </span>
         <span className={`w-2 h-2 rounded-full ${dotMap[color]}`} />
@@ -52,7 +48,7 @@ export function MetricCard({
           {value !== undefined && value !== null && value !== "" ? value : "-"}
         </span>
         {subtitle && (
-          <span className="text-xs text-[#9CA3AF] font-mono">{subtitle}</span>
+          <span className="text-xs text-[#9CA3AF] font-mono mt-0.5">{subtitle}</span>
         )}
       </div>
     </div>
