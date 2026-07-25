@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { UrlInput } from "@/components/UrlInput";
 import { AnalyzeButton } from "@/components/AnalyzeButton";
 import { Report } from "@/components/Report";
@@ -15,6 +16,14 @@ export default function Home() {
   const [apiResponse, setApiResponse] = useState<AnalyzeApiResponse | null>(null);
   const [activeTab, setActiveTab] = useState<"json" | "report">("json");
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
+
+  const resetToHome = () => {
+    setUrl("");
+    setAnalyzedUrl("");
+    setApiResponse(null);
+    setError(null);
+    setIsLoading(false);
+  };
 
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,12 +71,16 @@ export default function Home() {
       <div className="w-full max-w-[1320px] flex flex-col gap-6">
         {/* Header */}
         <header className="flex flex-col gap-1.5 border-b border-[#2A2F3A] pb-4">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#00D4AA] shadow-[0_0_8px_rgba(0,212,170,0.8)]" />
-            <h1 className="text-2xl font-bold tracking-tight text-[#F3F4F6] font-mono">
+          <Link
+            href="/"
+            onClick={resetToHome}
+            className="flex items-center gap-2.5 w-fit group cursor-pointer"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-[#00D4AA] shadow-[0_0_8px_rgba(0,212,170,0.8)] group-hover:scale-110 transition-transform duration-150" />
+            <h1 className="text-2xl font-bold tracking-tight text-[#F3F4F6] font-mono group-hover:text-white transition-colors duration-150">
               HTTPulse
             </h1>
-          </div>
+          </Link>
           <p className="text-xs sm:text-sm text-[#9CA3AF] font-mono">
             Inspect any webpage instantly.
           </p>

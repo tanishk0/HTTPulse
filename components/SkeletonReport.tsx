@@ -12,7 +12,7 @@ export function SkeletonReport() {
         </div>
       </div>
 
-      {/* SEO Row Skeleton */}
+      {/* Page Structure Row Skeleton */}
       <div className="flex flex-col gap-2">
         <div className="border-b border-[#2A2F3A] pb-1.5">
           <div className="h-3 w-16 bg-[#2A2F3A] rounded" />

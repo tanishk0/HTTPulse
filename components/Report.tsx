@@ -60,17 +60,17 @@ export function Report({ data }: ReportProps) {
         </div>
       </section>
 
-      {/* 2. SEO Row */}
+      {/* 2. Page Structure Row */}
       <section className="flex flex-col gap-2">
         <div className="flex items-center gap-2 border-b border-[#2A2F3A] pb-1.5">
           <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.6)]" />
           <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#9CA3AF]">
-            SEO
+            Page Structure
           </h3>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
           <MetricCard
-            label="Title"
+            label="Document Title"
             value={data.title ?? "No title found"}
             color={data.title ? "sky" : "amber"}
             subtitle={data.title === null ? "Missing title tag" : undefined}
@@ -84,7 +84,7 @@ export function Report({ data }: ReportProps) {
             className="lg:col-span-5"
           />
           <MetricCard
-            label="H1 Count"
+            label="Heading Count (H1)"
             value={data.h1Count}
             color={h1Info.color}
             subtitle={h1Info.subtitle}
